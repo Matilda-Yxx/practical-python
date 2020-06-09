@@ -6,6 +6,7 @@ import csv
 import sys
 
 def portfolio_cost(filename):
+	'''Computes the total cost of a portofolio via shares*price'''
 	f = open(filename, 'rt')
 	headers = next(f)
 	rows = csv.reader(f)
@@ -15,7 +16,7 @@ def portfolio_cost(filename):
 		try:
 			num_stocks = int(data_row[1])
 			price = float(data_row[2])
-			total_cost = total_cost + num_stocks*price
+			total_cost += num_stocks*price
 		except ValueError:
 			print("Missing value. Skip the stocks for", data_row[0])
 	f.close()
