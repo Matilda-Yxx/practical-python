@@ -39,6 +39,24 @@ def read_prices(filename):
     f.close()
     return portfolio
 
+def make_report(portfolio, price):
+    report = []
+    for stock in portfolio:
+        name = stock['name']
+        shares = stock['shares']
+        price_in = stock['price']
+        try:
+            price_out = price[name]
+            price_change = price_out - price_in
+        except:
+            print('Cannot find the current stock price.')
+        report.append((name, shares, f'${price_out:.2f}', price_change))
+
+    return report
+
+
+
+
 # compute total gain/loss
 gain = 0.0
 portfolio = read_portfolio('Data/portfolio.csv')
@@ -58,7 +76,13 @@ for p in portfolio:
 
 print('Gain/loss is given by: ', gain)
 
-
+report = make_report(portfolio, price)
+headers = ('Name', 'Shares', 'Price', 'Change')
+print('%10s %10s %10s %10s' % headers)
+divider = '----------'
+print(f'{divider:>10s} {divider:>10s} {divider:>10s} {divider:>10s}')
+for r in report:
+    print('%10s %10d %10s %10.2f' % r)
 
 
 
